@@ -15,7 +15,7 @@
 #
 
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp -DTARGET_MAKO_JWR66
+TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -33,6 +33,9 @@ TARGET_KRAIT_BIONIC_PLDSIZE := 64
 TARGET_MPDECISION_BOOST_SOCKET := /dev/socket/mpdecision/touchboost
 
 TARGET_NO_BOOTLOADER := true
+
+# Use JWR66Y kernel compatibility fix
+TARGET_USE_JWR66Y := true
 
 BOARD_KERNEL_BASE := 0x80200000
 BOARD_KERNEL_PAGESIZE := 2048
