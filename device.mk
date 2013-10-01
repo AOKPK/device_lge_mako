@@ -63,7 +63,8 @@ PRODUCT_COPY_FILES += \
 	device/lge/mako/fstab.mako:root/fstab.mako \
 	device/lge/mako/ueventd.mako.rc:root/ueventd.mako.rc \
 	device/lge/mako/media_profiles.xml:system/etc/media_profiles.xml \
-	device/lge/mako/media_codecs.xml:system/etc/media_codecs.xml
+	device/lge/mako/media_codecs.xml:system/etc/media_codecs.xml \
+  device/lge/mako/sbin/fkbootscript.sh:root/sbin/fkbootscript.sh
 
 # Prebuilt kl and kcm keymaps
 PRODUCT_COPY_FILES += \
@@ -188,9 +189,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
 	hci_qcomm_init
-
-PRODUCT_PACKAGES += \
-	power.msm8960
 
 PRODUCT_COPY_FILES += \
 	device/lge/mako/init.mako.bt.sh:system/etc/init.mako.bt.sh
