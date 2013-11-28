@@ -207,8 +207,8 @@ on post-fs-data
     chown system system /sys/class/leds/red/device/lock
 
     # communicate with mpdecision and thermald
-    mkdir /dev/socket/mpdecision 0770 system system
-    chmod 2770 /dev/socket/mpdecision
+    #mkdir /dev/socket/mpdecision 0770 system system
+    #chmod 2770 /dev/socket/mpdecision
 
     # adjust vibrator amplitude
     write /sys/class/timed_output/vibrator/amp 100
@@ -223,28 +223,10 @@ on post-fs-data
     write /sys/module/pm_8x60/modes/cpu2/power_collapse/suspend_enabled 1
     write /sys/module/pm_8x60/modes/cpu3/power_collapse/suspend_enabled 1
     write /sys/module/pm_8x60/modes/cpu0/power_collapse/idle_enabled 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "ondemand"
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "ondemand"
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "ondemand"
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "ondemand"
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
-    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
-    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
-    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
-    write /sys/devices/system/cpu/cpufreq/ondemand/down_differential 10
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core 60
-    write /sys/devices/system/cpu/cpufreq/ondemand/down_differential_multi_core 3
-    write /sys/devices/system/cpu/cpufreq/ondemand/optimal_freq 918000
-    write /sys/devices/system/cpu/cpufreq/ondemand/sync_freq 1026000
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load 80
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 384000
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /dev/cpuctl/apps/cpu.notify_on_migrate 1
 
 on charger
 
@@ -364,11 +346,11 @@ service charger /charger
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
 
-service thermald /system/bin/thermald
-    class main
+#service thermald /system/bin/thermald
+#    class main
 
-service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
-    class main
+#service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+#    class main
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
@@ -408,6 +390,20 @@ service qrngd /system/bin/qrngd -f
     class main
     user root
     group root
+
+service fkbootscript /sbin/fkbootscript.sh
+    class late_start
+	user root
+	disabled
+    oneshot
+
+on property:sys.boot_completed=1
+	write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+	start fkbootscript
+	write /dev/cpuctl/apps/cpu.notify_on_migrate 1
 
 # on property:gsm.sim.state=READY
 #    start diag_mdlog

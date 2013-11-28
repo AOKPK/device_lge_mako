@@ -42,7 +42,7 @@ BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=mako lpj=
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01600000
 
 TARGET_KERNEL_SOURCE := kernel/lge/mako
-TARGET_KERNEL_CONFIG := aokp_mako_defconfig
+TARGET_KERNEL_CONFIG := franco_defconfig
 
 BOARD_USES_ALSA_AUDIO:= true
 BOARD_USES_LEGACY_ALSA_AUDIO:= false
